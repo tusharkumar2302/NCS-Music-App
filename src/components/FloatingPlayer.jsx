@@ -12,9 +12,9 @@ const imageUrl =
   'https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/001/687/325x325/red-lights-1717027255-5TrvbCgaUy.jpg';
 
 const FloatingPlayer = () => {
-  const progress = useSharedValue(30);
+  const progress = useSharedValue(0.2);
   const min = useSharedValue(0);
-  const max = useSharedValue(100);
+  const max = useSharedValue(1);
   return (
     <View>
       <View styl={{zIndex:1}}>
@@ -27,6 +27,7 @@ const FloatingPlayer = () => {
             maximumTrackTintColor: colors.maximumTintColor,
             minimumTrackTintColor: colors.minimumTintColor,
           }}
+          renderBubble={() => <View />}
         />
       </View>
       <TouchableOpacity style={styles.container} activeOpacity={0.85}>
