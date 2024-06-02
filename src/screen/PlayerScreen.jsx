@@ -28,6 +28,13 @@ const PlayerScreen = () => {
       <View style={styles.coverImageContainer}>
         <Image source={{uri: imgUrl}} style={styles.coverImage} />
       </View>
+
+      <View style={styles.titleRowHeartContainer}></View>
+
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Mortals (feat. Laura Brehm)</Text>
+        <Text style={styles.artist}>Warriyo, Laura Brehm</Text>
+      </View>
     </View>
   );
 };
@@ -59,9 +66,18 @@ const styles = StyleSheet.create({
     width: 300,
     borderRadius: 10,
   },
-  coverImageContainer:{
+  coverImageContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: spacing.xl,
-  }
+  },
+  title: {
+    fontSize: fontSize.xl,
+    color: colors.textPrimary,
+    fontFamily: fontFamilies.medium,
+  },
+  artist: {
+    fontSize: fontSize.md,
+    color: colors.textSecondary,
+  },
 });
