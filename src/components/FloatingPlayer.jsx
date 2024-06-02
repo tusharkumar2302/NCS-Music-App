@@ -11,14 +11,21 @@ import {
   GoToPreviousButton,
   PlayPauseButton,
 } from './PlayerControls';
+import { useNavigation } from '@react-navigation/native';
 
 const imageUrl =
   'https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/001/687/325x325/red-lights-1717027255-5TrvbCgaUy.jpg';
 
 const FloatingPlayer = () => {
+  const navigation = useNavigation()
   const progress = useSharedValue(0.2);
   const min = useSharedValue(0);
   const max = useSharedValue(1);
+
+  const handleOpenPlayerScreen = () => {
+    navigation.navigate('PLAYER_SCREEN')
+
+  }
   return (
     <View>
       <View style={{zIndex: 1}}>
@@ -34,7 +41,7 @@ const FloatingPlayer = () => {
           renderBubble={() => <View />}
         />
       </View>
-      <TouchableOpacity style={styles.container} activeOpacity={0.85}>
+      <TouchableOpacity style={styles.container} activeOpacity={0.85} onPress={handleOpenPlayerScreen}>
         <Image source={{uri: imageUrl}} style={styles.coverImage} />
         <View style={styles.titleContainer}>
           <MovingText
