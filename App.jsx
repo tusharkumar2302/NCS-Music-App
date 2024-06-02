@@ -13,8 +13,7 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{headerShown: false}}
-          initialRouteName="PLAYER_SCREEN"
-          >
+          initialRouteName="PLAYER_SCREEN">
           <Stack.Screen name="HOME_SCREEN" component={HomeScreen} />
           <Stack.Screen name="LIKE_SCREEN" component={LikeScreen} />
           <Stack.Screen name="PLAYER_SCREEN" component={PlayerScreen} />
