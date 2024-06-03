@@ -12,6 +12,12 @@ import PlayerRepeatToggle from '../components/PlayerRepeatToggle';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import PlayerShuffleToggle from '../components/PlayerShuffleToggle';
+import PlayerProgressBar from '../components/PlayerProgressBar';
+import {
+  GoToNextButton,
+  GoToPreviousButton,
+  PlayPauseButton,
+} from '../components/PlayerControls';
 
 const imgUrl =
   'https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/287/325x325/mortals-feat-laura-brehm-1586948734-yFnA6l5Geq.jpg';
@@ -61,6 +67,13 @@ const PlayerScreen = () => {
           <PlayerRepeatToggle />
           <PlayerShuffleToggle />
         </View>
+      </View>
+
+      <PlayerProgressBar />
+      <View style={styles.playPauseContainer}>
+        <GoToPreviousButton size={iconSizes.xl}/>
+        <PlayPauseButton size={iconSizes.xl}/>
+        <GoToNextButton size={iconSizes.xl}/>
       </View>
     </View>
   );
@@ -128,4 +141,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: spacing.md,
   },
+  playPauseContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: spacing.xl,
+    marginTop: spacing.xl,
+  }
 });
