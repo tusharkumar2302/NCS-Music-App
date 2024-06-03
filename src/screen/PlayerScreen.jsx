@@ -6,13 +6,18 @@ import {spacing} from '../constants/dimensions';
 import {fontFamilies} from '../constants/fonts';
 import {fontSize} from '../constants/dimensions';
 import {Image} from 'react-native';
+import PlayerRepeatToggle from '../components/PlayerRepeatToggle';
 
 // icons
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
+import PlayerShuffleToggle from '../components/PlayerShuffleToggle';
 
 const imgUrl =
   'https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/287/325x325/mortals-feat-laura-brehm-1586948734-yFnA6l5Geq.jpg';
 const PlayerScreen = () => {
+  const isLiked = false;
+  const isMute = false;
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -29,11 +34,33 @@ const PlayerScreen = () => {
         <Image source={{uri: imgUrl}} style={styles.coverImage} />
       </View>
 
-      <View style={styles.titleRowHeartContainer}></View>
+      <View style={styles.titleRowHeartContainer}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Mortals (feat. Laura Brehm)</Text>
+          <Text style={styles.artist}>Warriyo, Laura Brehm</Text>
+        </View>
+        <TouchableOpacity>
+          <AntDesign
+            name={isLiked ? 'heart' : 'hearto'}
+            color={colors.iconSecondary}
+            size={iconSizes.md}
+          />
+        </TouchableOpacity>
+      </View>
 
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Mortals (feat. Laura Brehm)</Text>
-        <Text style={styles.artist}>Warriyo, Laura Brehm</Text>
+      <View style={styles.playerControlContainer}>
+        <TouchableOpacity style={styles.volumeWrapper}>
+          <Feather
+            name={isMute ? 'volume-x' : 'volume-1'}
+            color={colors.iconSecondary}
+            size={iconSizes.lg}
+          />
+        </TouchableOpacity>
+
+        <View style={styles.repeatShuffleWrapper}>
+          <PlayerRepeatToggle />
+          <PlayerShuffleToggle />
+        </View>
       </View>
     </View>
   );
@@ -79,5 +106,26 @@ const styles = StyleSheet.create({
   artist: {
     fontSize: fontSize.md,
     color: colors.textSecondary,
+  },
+  titleRowHeartContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  titleContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  playerControlContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: spacing.lg,
+  },
+  volumeWrapper: {
+    flex: 1,
+  },
+  repeatShuffleWrapper: {
+    flexDirection: 'row',
+    gap: spacing.md,
   },
 });
