@@ -7,11 +7,17 @@ import {iconSizes, spacing} from '../constants/dimensions';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useNavigation} from '@react-navigation/native';
 
 const Header = () => {
+  const navigation = useNavigation();
+
+  const toggleDrawer = () => {
+    navigation.toggleDrawer();
+  };
   return (
     <View style={styles.header}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={toggleDrawer}>
         <FontAwesome5
           name={'grip-lines'}
           color={colors.iconPrimary}
@@ -32,10 +38,11 @@ const Header = () => {
 export default Header;
 
 const styles = StyleSheet.create({
-  header:{
+  header: {
     flexDirection: 'row',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.lg,
   },
 });
+
