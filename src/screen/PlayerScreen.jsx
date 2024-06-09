@@ -1,4 +1,10 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {colors} from '../constants/colors';
 import {iconSizes} from '../constants/dimensions';
@@ -18,16 +24,44 @@ import {
   GoToPreviousButton,
   PlayPauseButton,
 } from '../components/PlayerControls';
+import {useActiveTrack} from 'react-native-track-player';
+import {useNavigation} from '@react-navigation/native';
+import {useState} from 'react';
+import TrackPlayer from 'react-native-track-player';
 
-const imgUrl =
-  'https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/287/325x325/mortals-feat-laura-brehm-1586948734-yFnA6l5Geq.jpg';
+// const imgUrl =
+//   'https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/287/325x325/mortals-feat-laura-brehm-1586948734-yFnA6l5Geq.jpg';
 const PlayerScreen = () => {
+  const navigation = useNavigation();
+  const activeTrack = useActiveTrack();
   const isLiked = false;
-  const isMute = false;
+  const [isMute, setIsMute] = useState(false);
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+  if (!activeTrack) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: colors.background,
+        }}>
+        <ActivityIndicator size={'large'} color={colors.iconPrimary} />
+      </View>
+    );
+  }
+
+  const handleToggleVolume = () => {
+    TrackPlayer.setVolume(isMute ? 1 : 0);
+    setIsMute(!isMute);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleGoBack}>
           <AntDesign
             name={'arrowleft'}
             color={colors.iconPrimary}
@@ -37,13 +71,13 @@ const PlayerScreen = () => {
         <Text style={styles.headerText}>Playing Now</Text>
       </View>
       <View style={styles.coverImageContainer}>
-        <Image source={{uri: imgUrl}} style={styles.coverImage} />
+        <Image source={{uri: activeTrack.artwork}} style={styles.coverImage} />
       </View>
 
       <View style={styles.titleRowHeartContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Mortals (feat. Laura Brehm)</Text>
-          <Text style={styles.artist}>Warriyo, Laura Brehm</Text>
+          <Text style={styles.title}>{activeTrack.title}</Text>
+          <Text style={styles.artist}>{activeTrack.artist}</Text>
         </View>
         <TouchableOpacity>
           <AntDesign
@@ -55,7 +89,9 @@ const PlayerScreen = () => {
       </View>
 
       <View style={styles.playerControlContainer}>
-        <TouchableOpacity style={styles.volumeWrapper}>
+        <TouchableOpacity
+          style={styles.volumeWrapper}
+          onPress={handleToggleVolume}>
           <Feather
             name={isMute ? 'volume-x' : 'volume-1'}
             color={colors.iconSecondary}
@@ -71,9 +107,9 @@ const PlayerScreen = () => {
 
       <PlayerProgressBar />
       <View style={styles.playPauseContainer}>
-        <GoToPreviousButton size={iconSizes.xl}/>
-        <PlayPauseButton size={iconSizes.xl}/>
-        <GoToNextButton size={iconSizes.xl}/>
+        <GoToPreviousButton size={iconSizes.xl} />
+        <PlayPauseButton size={iconSizes.xl} />
+        <GoToNextButton size={iconSizes.xl} />
       </View>
     </View>
   );
@@ -147,5 +183,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing.xl,
     marginTop: spacing.xl,
-  }
+  },
 });

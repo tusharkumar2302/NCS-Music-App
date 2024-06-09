@@ -6,13 +6,14 @@ import {fontFamilies} from '../constants/fonts';
 import {fontSize, spacing} from '../constants/dimensions';
 import SongCardWithCategory from '../components/SongCardWithCategory';
 import FloatingPlayer from '../components/FloatingPlayer';
+import {songsWithCategory} from '../data/songsWithCategory';
 
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Header />
       <FlatList
-        data={[1, 2, 3, 4, 5, 6, 7]}
+        data={songsWithCategory}
         renderItem={SongCardWithCategory}
         contentContainerStyle={{
           paddingBottom: 400,
