@@ -11,21 +11,22 @@ import {
   GoToPreviousButton,
   PlayPauseButton,
 } from './PlayerControls';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import TrackPlayer from 'react-native-track-player';
+
 
 const imageUrl =
   'https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/001/687/325x325/red-lights-1717027255-5TrvbCgaUy.jpg';
 
 const FloatingPlayer = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const progress = useSharedValue(0.2);
   const min = useSharedValue(0);
   const max = useSharedValue(1);
 
   const handleOpenPlayerScreen = () => {
-    navigation.navigate('PLAYER_SCREEN')
-
-  }
+    navigation.navigate('PLAYER_SCREEN');
+  };
   return (
     <View>
       <View style={{zIndex: 1}}>
@@ -38,10 +39,24 @@ const FloatingPlayer = () => {
             maximumTrackTintColor: colors.maximumTintColor,
             minimumTrackTintColor: colors.minimumTintColor,
           }}
-          renderBubble={() => <View />}
+          renderBubble={() => null}
+          onSlidingStart={() => (isSliding.value = true)}
+          onValueChange={async value => {
+            await TrackPlayer.seekTo(value * duration);
+          }}
+          onSlidingComplete={async value => {
+            if (!isSliding.value) {
+              return;
+            }
+            isSliding.value = false;
+            await TrackPlayer.seekTo(value * duration);
+          }}
         />
       </View>
-      <TouchableOpacity style={styles.container} activeOpacity={0.85} onPress={handleOpenPlayerScreen}>
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={0.85}
+        onPress={handleOpenPlayerScreen}>
         <Image source={{uri: imageUrl}} style={styles.coverImage} />
         <View style={styles.titleContainer}>
           <MovingText
