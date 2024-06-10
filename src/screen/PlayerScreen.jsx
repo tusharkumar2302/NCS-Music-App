@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {colors} from '../constants/colors';
 import {iconSizes} from '../constants/dimensions';
 import {spacing} from '../constants/dimensions';
@@ -39,6 +39,16 @@ const PlayerScreen = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
+
+  useEffect(() => {
+    setVolume();
+  }, []);
+
+  const setVolume = async () => {
+    const volume = await TrackPlayer.getVolume();
+    setIsMute(volume === 0 ? true : false);
+  }
+
   if (!activeTrack) {
     return (
       <View
