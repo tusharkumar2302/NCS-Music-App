@@ -8,12 +8,19 @@ import {fontFamilies} from '../constants/fonts';
 import {fontSize} from '../constants/dimensions';
 import SongCard from '../components/SongCard';
 import FloatingPlayer from '../components/FloatingPlayer';
+import useLikeSongs from '../store/likeStore';
+import {useNavigation} from '@react-navigation/native';
 
 const LikeScreen = () => {
+  const {likedSongs, addToLiked} = useLikeSongs();
+  const navigation = useNavigation();
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleGoBack}>
           <AntDesign
             name={'arrowleft'}
             color={colors.iconPrimary}
@@ -32,8 +39,8 @@ const LikeScreen = () => {
         ListHeaderComponent={
           <Text style={styles.headingText}>Liked Songs</Text>
         }
-        data={[1, 2, 3, 4, 5, 6, 7, 8]}
-        renderItem={() => (
+        data={likedSongs}
+        renderItem={({item}) => (
           <SongCard
             containerStyle={{width: '47%'}}
             imageStyle={{
@@ -41,6 +48,7 @@ const LikeScreen = () => {
               width: 160,
               borderRadius: 10,
             }}
+            item={item}
           />
         )}
         numColumns={2}

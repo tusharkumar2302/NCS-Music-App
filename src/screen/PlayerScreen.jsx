@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {colors} from '../constants/colors';
 import {iconSizes} from '../constants/dimensions';
 import {spacing} from '../constants/dimensions';
@@ -28,10 +28,13 @@ import {useActiveTrack} from 'react-native-track-player';
 import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
 import TrackPlayer from 'react-native-track-player';
+import useLikeSongs from '../store/likeStore';
+import {isExist} from '../utils';
 
 // const imgUrl =
 //   'https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/287/325x325/mortals-feat-laura-brehm-1586948734-yFnA6l5Geq.jpg';
 const PlayerScreen = () => {
+  const [likedSongs, addToLiked] = useLikeSongs();
   const navigation = useNavigation();
   const activeTrack = useActiveTrack();
   const isLiked = false;
@@ -47,7 +50,7 @@ const PlayerScreen = () => {
   const setVolume = async () => {
     const volume = await TrackPlayer.getVolume();
     setIsMute(volume === 0 ? true : false);
-  }
+  };
 
   if (!activeTrack) {
     return (
@@ -89,9 +92,9 @@ const PlayerScreen = () => {
           <Text style={styles.title}>{activeTrack.title}</Text>
           <Text style={styles.artist}>{activeTrack.artist}</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => addToLiked(activeTrack)}>
           <AntDesign
-            name={isLiked ? 'heart' : 'hearto'}
+            name={isExist(likedSongs, activeTrack) ? 'heart' : 'hearto'}
             color={colors.iconSecondary}
             size={iconSizes.md}
           />
