@@ -5,8 +5,12 @@ import {iconSizes} from '../constants/dimensions';
 import {colors} from '../constants/colors';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import TrackPlayer, { useIsPlaying } from 'react-native-track-player';
+import { useTheme } from '@react-navigation/native';
 
 export const GoToPreviousButton = ({size = iconSizes.lg}) => {
+
+  const {colors} = useTheme();
+
   const handleGoToPrevious = async () => {
     TrackPlayer.skipToPrevious();
   }

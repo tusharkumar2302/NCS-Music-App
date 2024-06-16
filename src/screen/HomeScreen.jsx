@@ -1,20 +1,22 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {colors} from '../constants/colors';
+// import {colors} from '../constants/colors';
 import Header from '../components/Header';
 import {fontFamilies} from '../constants/fonts';
 import {fontSize, spacing} from '../constants/dimensions';
 import SongCardWithCategory from '../components/SongCardWithCategory';
 import FloatingPlayer from '../components/FloatingPlayer';
 import {songsWithCategory} from '../data/songsWithCategory';
+import {useTheme} from '@react-navigation/native';
 
 const HomeScreen = () => {
+  const {colors} = useTheme();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: colors.background}]}>
       <Header />
       <FlatList
         data={songsWithCategory}
-        renderItem={SongCardWithCategory}
+        renderItem={({item}) => <SongCardWithCategory item={item} />}
         contentContainerStyle={{
           paddingBottom: 400,
         }}
@@ -28,7 +30,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
+    // backgroundColor: colors.background,
     flex: 1,
   },
   headingText: {

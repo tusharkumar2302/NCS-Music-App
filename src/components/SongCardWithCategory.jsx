@@ -3,14 +3,17 @@ import React from 'react';
 import SongCard from './SongCard';
 import {spacing} from '../constants/dimensions';
 import {fontSize} from '../constants/dimensions';
-import {colors} from '../constants/colors';
+// import {colors} from '../constants/colors';
 import {fontFamilies} from '../constants/fonts';
 import TrackPlayer from 'react-native-track-player';
+import {useTheme} from '@react-navigation/native';
 
 const SongCardWithCategory = ({item}) => {
+  const {colors} = useTheme();
+
   const handlePlayTrack = async (selectedTrack, songs = item.songs) => {
     const trackIndex = songs.findIndex(
-      (track) => track.url === selectedTrack.url
+      track => track.url === selectedTrack.url,
     );
     if (trackIndex === -1) {
       return;
@@ -28,7 +31,9 @@ const SongCardWithCategory = ({item}) => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.headingText}>{item.title}</Text>
+      <Text style={[styles.headingText, {color: colors.textPrimary}]}>
+        {item.title}
+      </Text>
       <FlatList
         data={item.songs}
         renderItem={({item}) => (
@@ -42,6 +47,7 @@ const SongCardWithCategory = ({item}) => {
         horizontal={true}
         ItemSeparatorComponent={<View style={{marginHorizontal: spacing.xs}} />}
         contentContainerStyle={{paddingHorizontal: spacing.lg}}
+        showsHorizontalScrollIndicator={false}
       />
     </View>
   );
@@ -55,7 +61,6 @@ const styles = StyleSheet.create({
   },
   headingText: {
     fontSize: fontSize.xl,
-    color: colors.textPrimary,
     fontFamily: fontFamilies.bold,
     paddingVertical: spacing.lg,
     paddingHorizontal: spacing.lg,
